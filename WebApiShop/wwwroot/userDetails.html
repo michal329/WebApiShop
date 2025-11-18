@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="userDetails.js" defer></script>
+    <title></title>
+    <style>
+        body {
+            background-color: #d3d6dc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            color: #333;
+        }
+
+        #hello {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .main {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .updateUser {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+            .updateUser label {
+                margin-top: 0.7rem;
+                margin-bottom: 0.2rem;
+                font-weight: bold;
+            }
+
+            .updateUser input {
+                padding: 0.5rem;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 1rem;
+            }
+
+            .updateUser button {
+                margin-top: 1.5rem;
+                padding: 0.6rem;
+                background-color: #4a6fa5;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.2s ease;
+            }
+
+                .updateUser button:hover {
+                    background-color: #355a8a;
+                }
+
+    </style>
+</head>
+<body>
+
+    <div class="main">
+
+        <h2 id="hello"></h2>
+        <div class="updateUser">
+            <label for="NuserName">שם משתמש</label>
+            <input type="email" id="NuserName" name="NuserName" required />
+            <label for="NfirstName">שם פרטי</label>
+            <input type="text" id="NfirstName" name="NfirstName" required />
+            <label for="NlastName">שם משפחה</label>
+            <input type="text" id="NlastName" name="NlastName" required />
+            <label for="Npassword">סיסמא</label>
+            <input type="password" id="Npassword" name="Npassword" required />
+            <button type="button" onClick="update()">עדכן</button>
+        </div>
+
+
+
+    </div>
+
+
+</body>
+</html>

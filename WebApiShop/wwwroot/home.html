@@ -1,0 +1,60 @@
+﻿
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="home.js" defer></script>
+        <title>webApi</title>
+        <style>
+            .cont {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .existUser {
+                display: flex;
+                flex-direction: column;
+                width: 20vw;
+                margin: 2vw;
+            }
+
+            .newUser {
+                display: flex;
+                flex-direction: column;
+                width: 20vw;
+                margin: 2vw;
+            }
+        </style>
+    </head>
+    <body>
+       
+        <div class="cont">
+            <form class="existUser">
+                <h3>משתמש רשום</h3>
+                <lable for="RuserName">שם משתמש</lable>
+                <input type="email" id="RuserName" required />
+                <lable for="Rpassword">סיסמא</lable>
+                <input type="password" id="Rpassword" required />
+                <button type="button" onClick="signIn()">שליחה</button>
+            </form>
+
+            <div class="newUser">
+                <h3>משתמש חדש</h3>
+                <label for="userName">שם משתמש</label>
+                <input type="email" id="userName" name="userName" required />
+                <label for="firstName">שם פרטי</label>
+                <input type="text" id="firstName" name="firstName" required />
+                <label for="lastName">שם משפחה</label>
+                <input type="text" id="lastName" name="lastName" required />
+                <label for="password">סיסמא</label>
+                <input type="password" id="password" name="password" required />
+                <button type="button" onClick="signUp()">שליחה</button>
+                <button onclick="checkPasswordScore()">check password</button>
+                <label for="passwordStrength">password score:</label>
+                <progress id="passwordScore" value="0" max="100"> 32% </progress>
+            </div>
+
+        </div>
+    </body>
+</html>
+    
