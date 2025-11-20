@@ -2,7 +2,7 @@
 using Entity;
 namespace Repositories  
 {
-    public class UserRepositories
+    public class UserRepositories:IUserRepositories
     {
         string filePath = "C:\\Users\\user1\\Desktop\\WebApiShop\\users.txt";
 

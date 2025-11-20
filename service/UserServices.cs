@@ -4,7 +4,7 @@ using Services;
 namespace service
 {
 
-    public class UserServices
+    public class UserServices :IUserServices
     {
         private UserRepositories userRepository = new UserRepositories();
         private PasswordServices passwordService = new PasswordServices();
