@@ -2,9 +2,9 @@
 using Entity;
 namespace Repositories  
 {
-    public class UserRepositories:IUserRepositories
+    public class UserRepositories : IUserRepositories
     {
-        string filePath = "C:\\Users\\user1\\Desktop\\WebApiShop\\users.txt";
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "users.txt");
 
         public User addUser(User newUser)
         {
@@ -25,7 +25,7 @@ namespace Repositories
                 while ((currentLine = reader.ReadLine()) != null)
                 {
                     User user = JsonSerializer.Deserialize<User>(currentLine);
-                    if (User != null && User.userName == user.userName && User.password == user.password)
+                    if (user != null && User != null && User.userName == user.userName && User.password == user.password)
                         return user;
                 }
 
@@ -55,6 +55,7 @@ namespace Repositories
 
         public void UpdateUser(int id, User updateUser)
         {
+            updateUser.id = id;
             string textToReplace = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(filePath))
             {
@@ -63,7 +64,7 @@ namespace Repositories
                 {
 
                     User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.id == id)
+                    if (user != null && user.id == id)
                         textToReplace = currentUserInFile;
                 }
             }

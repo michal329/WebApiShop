@@ -8,6 +8,13 @@
 
 const signUp = async () => {
     try {
+        // Check password strength before submitting
+        const passwordScore = await getPasswordScore(password.value);
+        if (passwordScore < 2) {
+            alert(`Password too weak (score: ${passwordScore}/4). Please choose a stronger password.`);
+            return;
+        }
+
         const newUser = {
             userName: userName.value,
             firstName: firstName.value,
@@ -87,28 +94,42 @@ const Rpassword = document.querySelector("#Rpassword")
 }
 
     
-    async function checkPasswordScore() {
+    async function getPasswordScore(passwordValue) {
         try {
-            const password = document.querySelector("#password").value
-            const progress = document.querySelector("#passwordScore")
             const response = await fetch('api/Passwords/PasswordScore', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(password)
+                body: JSON.stringify(passwordValue)
             });
 
             if (!response.ok) {
                 throw Error("error")
             }
             const data = await response.json();
+            return data;
+        }
+        catch (error) {
+            alert(error)
+            return 0;
+        }
+    }
+
+    async function checkPasswordScore() {
+        try {
+            const password = document.querySelector("#password").value
+            const progress = document.querySelector("#passwordScore")
+            const data = await getPasswordScore(password);
             progress.value = data * 25
         }
         catch (error) {
             alert(error)
         }
     }
+
+    // Auto-check password strength on input
+    password.addEventListener('input', checkPasswordScore);
 
    
 
