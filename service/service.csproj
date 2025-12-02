@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\repository\Repositories.csproj" />
-    <ProjectReference Include="..\UserDl\UserEntity.csproj" />
   </ItemGroup>
 
 </Project>

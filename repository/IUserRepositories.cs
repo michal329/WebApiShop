@@ -1,13 +1,13 @@
-﻿using Entity;
+﻿using Repositories.Models;
+using System.Threading.Tasks;
 
 namespace Repositories
 {
     public interface IUserRepositories
     {
-        User addUser(User newUser);
-        User getUserById(int id);
-        User loginUser(LoginUser loginUser);
-        void UpdateUser(int id, User updateUser);
-
+        Task<User> addUserAsync(User newUser);
+        Task<User> getUserByIdAsync(int id);
+        Task<User> loginUserAsync(LoginUser loginUser);
+        Task UpdateUserAsync(int id, User updateUser);
     }
 }

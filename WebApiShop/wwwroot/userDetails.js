@@ -42,9 +42,10 @@ const update = async () => {
         body: JSON.stringify(newDetails)
 
     });
-    const postData = await responsePost.json();
-    alert('POST Data:' + JSON.stringify(postData));
     if (responsePost.ok) {
         window.location.href = "home.html";
+    } else {
+        const text = await responsePost.text();
+        alert("Error: " + text);
     }
 }
