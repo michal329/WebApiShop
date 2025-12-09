@@ -13,20 +13,20 @@ namespace Repositories
             _context = context;
         }
 
-        public async Task<User> addUserAsync(User newUser)
+        public async Task<User> AddUserAsync(User newUser)
         {
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
             return newUser;
         }
 
-        public async Task<User> loginUserAsync(LoginUser loginUser)
+        public async Task<User> LoginUserAsync(LoginUser loginUser)
         {
             return await _context.Users.FirstOrDefaultAsync(u =>
                 u.UserName == loginUser.UserName && u.Password == loginUser.Password);
         }
 
-        public async Task<User> getUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }

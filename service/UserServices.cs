@@ -16,25 +16,25 @@ namespace service
             _passwordService = passwordService;
         }
 
-        public async Task<User> addUserAsync(User newUser)
+        public async Task<User> AddUserAsync(User newUser)
         {
             int passScore = _passwordService.GetPasswordScore(newUser.Password);
             if (passScore < 2) return null;
 
-            return await _userRepository.addUserAsync(newUser);
+            return await _userRepository.AddUserAsync(newUser);
         }
 
-        public async Task<User> loginUserAsync(LoginUser user)
+        public async Task<User> LoginUserAsync(LoginUser user)
         {
-            return await _userRepository.loginUserAsync(user);
+            return await _userRepository.LoginUserAsync(user);
         }
 
-        public async Task<User> getUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _userRepository.getUserByIdAsync(id);
+            return await _userRepository.GetUserByIdAsync(id);
         }
 
-        public async Task<bool> updateUserAsync(int id, User user)
+        public async Task<bool> UpdateUserAsync(int id, User user)
         {
             int passScore = _passwordService.GetPasswordScore(user.Password);
             if (passScore < 2) return false;
