@@ -9,15 +9,17 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class PasswordController : ControllerBase
     {
-        private readonly IPasswordServices _passwordService;
+        private readonly IPasswordServices passwordService;
 
-        public PasswordController(IPasswordServices passwordService)
+        public PasswordsController(IPasswordServices passwordServices)
         {
-            _passwordService = passwordService;
+            passwordService = passwordServices;
+        }
+        {
+            passwordService = passwordServices;
         }
 
-        // POST api/password/score
-        [HttpPost("score")]
+        [HttpPost("PasswordScore")]
         public ActionResult<int> PasswordScore([FromBody] string password)
         {
             int strength = _passwordService.GetPasswordScore(password);

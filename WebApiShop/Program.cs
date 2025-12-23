@@ -12,6 +12,11 @@ builder.Services.AddDbContext<MyUsersDBContext>
     (options => options.UseSqlServer("Data Source=DESKTOP-1VUANBN;Initial Catalog=MyUsersDB;Integrated Security=True;Trust Server Certificate=True"));
 // Add services to the container.
 
+// Register services for dependency injection
+builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IPasswordServices, PasswordServices>();
+builder.Services.AddScoped<IUserRepositories, UserRepositories>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
