@@ -19,7 +19,7 @@ namespace WebApiShop.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login([FromBody] LoginUser loginUser)
         {
-            var user = await _userServices.loginUserAsync(loginUser);
+            var user = await _userServices.LoginUserAsync(loginUser);
             if (user == null) return Unauthorized("Invalid credentials");
             return Ok(user);
         }
@@ -28,16 +28,16 @@ namespace WebApiShop.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> AddUser([FromBody] User user)
         {
-            var addedUser = await _userServices.addUserAsync(user);
+            var addedUser = await _userServices.AddUserAsync(user);
             if (addedUser == null) return BadRequest("Password too weak");
-            return Ok(addedUser);
+            return CreatedAtAction(nameof(GetById), new { id = addedUser.Id }, addedUser);
         }
 
         // GET api/users/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetById(int id)
         {
-            var user = await _userServices.getUserByIdAsync(id);
+            var user = await _userServices.GetUserByIdAsync(id);
             if (user == null) return NotFound();
             return Ok(user);
         }
@@ -46,7 +46,7 @@ namespace WebApiShop.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
         {
-            var result = await _userServices.updateUserAsync(id, user);
+            var result = await _userServices.UpdateUserAsync(id, user);
             if (!result) return BadRequest("Password too weak or user not found");
             return NoContent();
         }

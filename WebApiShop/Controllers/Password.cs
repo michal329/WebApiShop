@@ -7,7 +7,7 @@ namespace WebApiShop.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class PasswordsController : ControllerBase
+    public class PasswordController : ControllerBase
     {
         private readonly IPasswordServices passwordService;
 
@@ -22,7 +22,7 @@ namespace WebApiShop.Controllers
         [HttpPost("PasswordScore")]
         public ActionResult<int> PasswordScore([FromBody] string password)
         {
-            int strength = passwordService.GetPasswordScore(password);
+            int strength = _passwordService.GetPasswordScore(password);
             return Ok(strength);
         }
     }
