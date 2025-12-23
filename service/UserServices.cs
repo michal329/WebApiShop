@@ -1,44 +1,46 @@
-﻿using Entity;
+﻿using Repositories.Models;
 using Repositories;
 using Services;
+using System.Threading.Tasks;
+
 namespace service
 {
-
     public class UserServices : IUserServices
     {
-        private readonly IUserRepositories userRepository;
-        private readonly IPasswordServices passwordService;
+        private readonly IUserRepositories _userRepository;
+        private readonly IPasswordServices _passwordService;
 
-        public UserServices(IUserRepositories userRepositories, IPasswordServices passwordServices)
+        public UserServices(IUserRepositories userRepository, IPasswordServices passwordService)
         {
-            userRepository = userRepositories;
-            passwordService = passwordServices;
-        }
-        public User addUser(User newUser) {
-            return userRepository.addUser(newUser);
-
+            _userRepository = userRepository;
+            _passwordService = passwordService;
         }
 
-        public User loginUser(LoginUser User)
+        public async Task<User> addUserAsync(User newUser)
         {
+            int passScore = _passwordService.GetPasswordScore(newUser.Password);
+            if (passScore < 2) return null;
 
-           return userRepository.loginUser(User);
-
+            return await _userRepository.addUserAsync(newUser);
         }
 
-        public User getUserById(int id)
+        public async Task<User> loginUserAsync(LoginUser user)
         {
-
-            return userRepository.getUserById(id);
-
+            return await _userRepository.loginUserAsync(user);
         }
-        public bool updateUser(int id, User user)
+
+        public async Task<User> getUserByIdAsync(int id)
         {
-            userRepository.UpdateUser(id, user);
+            return await _userRepository.getUserByIdAsync(id);
+        }
+
+        public async Task<bool> updateUserAsync(int id, User user)
+        {
+            int passScore = _passwordService.GetPasswordScore(user.Password);
+            if (passScore < 2) return false;
+
+            await _userRepository.UpdateUserAsync(id, user);
             return true;
-
         }
-
-
     }
 }

@@ -1,91 +1,47 @@
-﻿using System.Text.Json;
-using Entity;
-namespace Repositories  
+﻿using Repositories.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+
+namespace Repositories
 {
     public class UserRepositories : IUserRepositories
     {
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "users.txt");
+        private readonly MyUsersDBContext _context;
 
-        public User addUser(User newUser)
+        public UserRepositories(MyUsersDBContext context)
         {
-            int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
-            newUser.id = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(newUser);
-            System.IO.File.AppendAllText(filePath, userJson + Environment.NewLine);
+            _context = context;
+        }
+
+        public async Task<User> addUserAsync(User newUser)
+        {
+            await _context.Users.AddAsync(newUser);
+            await _context.SaveChangesAsync();
             return newUser;
         }
 
-        public User loginUser(LoginUser User)
+        public async Task<User> loginUserAsync(LoginUser loginUser)
         {
-
-
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentLine;
-                while ((currentLine = reader.ReadLine()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentLine);
-                    if (user != null && User != null && User.userName == user.userName && User.password == user.password)
-                        return user;
-                }
-
-
-            }
- 
-            return null;
+            return await _context.Users.FirstOrDefaultAsync(u =>
+                u.UserName == loginUser.UserName && u.Password == loginUser.Password);
         }
 
-        public User getUserById(int id)
+        public async Task<User> getUserByIdAsync(int id)
         {
-
-
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.id == id)
-                        return user;
-                }
-            }
-            return null;
-
+            return await _context.Users.FindAsync(id);
         }
 
-        public void UpdateUser(int id, User updateUser)
+        public async Task UpdateUserAsync(int id, User updateUser)
         {
-            updateUser.id = id;
-            string textToReplace = string.Empty;
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return;
 
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user != null && user.id == id)
-                        textToReplace = currentUserInFile;
-                }
-            }
-            if (textToReplace != string.Empty)
-            {
-                string text = System.IO.File.ReadAllText(filePath);
-                text = text.Replace(textToReplace, JsonSerializer.Serialize(updateUser));
-                System.IO.File.WriteAllText(filePath, text);
-            }
+            user.FirstName = updateUser.FirstName;
+            user.LastName = updateUser.LastName;
+            user.UserName = updateUser.UserName;
+            user.Password = updateUser.Password;
+
+            await _context.SaveChangesAsync();
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

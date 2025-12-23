@@ -1,2 +1,0 @@
-{"id":0,"userName":"sprung5866769@gmail.com","firstName":"m1","lastName":"","password":"1234"}
-{"id":2,"userName":"sprung586@gmail.com","firstName":"rachel","lastName":"shprung","password":"1"}

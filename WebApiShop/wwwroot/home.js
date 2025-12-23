@@ -21,6 +21,7 @@ const signUp = async () => {
             lastName: lastName.value,
             password: password.value,
         }
+      
 
         const responsePost = await fetch('https://localhost:44385/api/Users', {
             method: 'POST',
@@ -96,7 +97,9 @@ const Rpassword = document.querySelector("#Rpassword")
     
     async function getPasswordScore(passwordValue) {
         try {
-            const response = await fetch('api/Passwords/PasswordScore', {
+            const password = document.querySelector("#password").value
+            const progress = document.querySelector("#passwordScore")
+            const response = await fetch('https://localhost:44385/api/Passwords/PasswordScore', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
