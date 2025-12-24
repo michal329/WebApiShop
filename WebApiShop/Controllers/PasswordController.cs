@@ -7,18 +7,13 @@ namespace WebApiShop.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class PasswordController : ControllerBase
+    public class PasswordsController : ControllerBase
     {
-        private readonly IPasswordServices passwordService;
-
-        public PasswordsController(IPasswordServices passwordServices)
+        private IPasswordService _passwordService;
+        public PasswordsController(IPasswordService passwordService)
         {
-            passwordService = passwordServices;
+            _passwordService = passwordService;
         }
-        {
-            passwordService = passwordServices;
-        }
-
         [HttpPost("PasswordScore")]
         public ActionResult<int> PasswordScore([FromBody] string password)
         {

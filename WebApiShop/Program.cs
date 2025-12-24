@@ -1,32 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Repositories;
 using Repositories.Models;
-using service;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IUserRepositories, UserRepositories>();
-builder.Services.AddScoped<IPasswordServices, PasswordServices>();
-builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddDbContext<MyUsersDBContext>
-    (options => options.UseSqlServer("Data Source=DESKTOP-1VUANBN;Initial Catalog=MyUsersDB;Integrated Security=True;Trust Server Certificate=True"));
-// Add services to the container.
 
-// Register services for dependency injection
-builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<IPasswordServices, PasswordServices>();
-builder.Services.AddScoped<IUserRepositories, UserRepositories>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IUserService, UserServices>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddDbContext<ApiDBContext>
+    (options => options.UseSqlServer("Data Source=DESKTOP-1VUANBN;Initial Catalog=Manager;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"));
+// Add services to the container.
 
 builder.Services.AddControllers();
 
+object value = builder.Services.AddOpenApi();
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
+
+if (app.Environment.IsDevelopment())
 {
-    var db = scope.ServiceProvider.GetRequiredService<MyUsersDBContext>();
-    db.Database.EnsureCreated();
+    app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
+    });
 }
-
-
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();

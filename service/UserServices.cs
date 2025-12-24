@@ -1,46 +1,56 @@
-﻿using Repositories.Models;
-using Repositories;
-using Services;
-using System.Threading.Tasks;
+﻿using Repositories;
+using Repositories.Models;
 
-namespace service
+namespace Services
 {
-    public class UserServices : IUserServices
+    public class UserServices : IUserService
     {
-        private readonly IUserRepositories _userRepository;
-        private readonly IPasswordServices _passwordService;
+        private const int MinimumPasswordScore = 2;
 
-        public UserServices(IUserRepositories userRepository, IPasswordServices passwordService)
+        private readonly IUserRepository _userRepository;
+        private readonly IPasswordService _passwordService;
+
+        public UserServices(IUserRepository userRepository, IPasswordService passwordService)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
         }
 
-        public async Task<User> AddUserAsync(User newUser)
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            int passScore = _passwordService.GetPasswordScore(newUser.Password);
-            if (passScore < 2) return null;
-
-            return await _userRepository.AddUserAsync(newUser);
+            return await _userRepository.GetUsers();
         }
 
-        public async Task<User> LoginUserAsync(LoginUser user)
+        public async Task<User> GetUserById(int id)
         {
-            return await _userRepository.LoginUserAsync(user);
+            return await _userRepository.GetUserById(id);
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> AddUser(User user)
         {
-            return await _userRepository.GetUserByIdAsync(id);
+            if (await _userRepository.UserWithSameEmail(user.Email,user.UserId))
+            {
+                return null;
+            }
+
+            int passScore = _passwordService.GetPasswordScore(user.Password);
+            if (passScore < MinimumPasswordScore)
+                return null;
+            return await _userRepository.AddUser(user);
         }
 
-        public async Task<bool> UpdateUserAsync(int id, User user)
+        public async Task<bool> UpdateUser(int id, User user)
         {
             int passScore = _passwordService.GetPasswordScore(user.Password);
-            if (passScore < 2) return false;
-
-            await _userRepository.UpdateUserAsync(id, user);
+            if (passScore < MinimumPasswordScore)
+                return false;
+            await _userRepository.UpdateUser(id, user);
             return true;
+        }
+
+        public Task<User> Login(LoginUser loginUser)
+        {
+            return _userRepository.Login(loginUser);
         }
     }
 }
