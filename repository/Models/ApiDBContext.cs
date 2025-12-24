@@ -29,10 +29,10 @@ public partial class ApiDBContext : DbContext
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2B63632436");
 
-            entity.HasIndex(e => e.CategoryName, "UQ__Categori__8517B2E014452F57").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__Categori__8517B2E014452F57").IsUnique();
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.CategoryName)
+            entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);

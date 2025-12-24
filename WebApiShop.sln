@@ -14,6 +14,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "repository\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "service", "service\service.csproj", "{99525B85-645F-4065-95E3-85A461D4DFFC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTOs", "DTOs", "{40BF1555-3092-4CE9-939A-3136E8578C04}"
+	ProjectSection(SolutionItems) = preProject
+		DTOs.csproj = DTOs.csproj
+		CategoryDTO.cs = CategoryDTO.cs
+		LoginUserDTO.cs = LoginUserDTO.cs
+		OrderDTO.cs = OrderDTO.cs
+		OrderItemDTO.cs = OrderItemDTO.cs
+		PostUserDTO.cs = PostUserDTO.cs
+		ProductDTO.cs = ProductDTO.cs
+		UserDTO.cs = UserDTO.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
