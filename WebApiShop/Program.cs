@@ -17,7 +17,6 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddDbContext<ApiDBContext>
     (options => options.UseSqlServer("Data Source=DESKTOP-1VUANBN;Initial Catalog=Manager;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"));
-// Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -32,7 +31,6 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
     });
 }
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
